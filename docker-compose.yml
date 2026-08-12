@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: event-aggregator-pg-dev
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: events
+    ports:
+      - "5433:5432"
