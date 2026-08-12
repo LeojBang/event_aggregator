@@ -1,0 +1,38 @@
+[project]
+name = "event-aggregator"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Maxim Merkulov", email = "m.merkulovdodo@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.3,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ruff",
+    "pytest",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors (PEP8)
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort (imports)
+]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
