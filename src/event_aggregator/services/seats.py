@@ -22,7 +22,7 @@ class SeatsService:
         event = await self._event_repo.get_by_id(event_id)
         if event is None:
             raise EventNotFoundError
-        if event.status != EventStatus.PUBLISHED:
+        if event.status != EventStatus.PUBLISHED.value:
             raise EventNotPublishedError
 
         cached = self._cache.get(event_id)

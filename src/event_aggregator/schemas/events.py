@@ -2,8 +2,6 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
-from event_aggregator.models.enums import EventStatus
-
 
 class PlaceShortSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -26,7 +24,7 @@ class EventListItemSchema(BaseModel):
     place: PlaceShortSchema
     event_time: datetime
     registration_deadline: datetime
-    status: EventStatus
+    status: str
     number_of_visitors: int
 
 
@@ -38,7 +36,7 @@ class EventDetailSchema(BaseModel):
     place: PlaceDetailSchema
     event_time: datetime
     registration_deadline: datetime
-    status: EventStatus
+    status: str
     number_of_visitors: int
 
 
