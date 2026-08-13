@@ -9,6 +9,7 @@ requires-python = ">=3.11"
 dependencies = [
     "alembic>=1.19.1",
     "asyncpg>=0.31.0",
+    "email-validator>=2.3.0",
     "fastapi",
     "greenlet>=3.5.5",
     "httpx>=0.28.1",
