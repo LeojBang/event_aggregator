@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     POSTGRES_USERNAME: str
     POSTGRES_PASSWORD: str
     POSTGRES_CONNECTION_STRING: str
+    EVENTS_PROVIDER_URL: str
+    EVENTS_PROVIDER_API_KEY: str
 
     @property
     def database_url(self):

@@ -11,6 +11,7 @@ dependencies = [
     "asyncpg>=0.31.0",
     "fastapi",
     "greenlet>=3.5.5",
+    "httpx>=0.28.1",
     "pydantic-settings>=2.15.0",
     "sqlalchemy>=2.0.52",
     "uvicorn[standard]",
