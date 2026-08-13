@@ -1,3 +1,5 @@
+from urllib.parse import urljoin
+
 import httpx
 
 
@@ -14,7 +16,7 @@ class EventsProviderClient:
             response = await self._client.get(url, headers=headers)
         else:
             response = await self._client.get(
-                f"{self._base_url}/api/events/",
+                urljoin(self._base_url, "/api/events/"),
                 params={"changed_at": changed_at},
                 headers=headers,
             )
@@ -25,7 +27,7 @@ class EventsProviderClient:
     async def seats(self, event_id: str) -> dict:
         headers = {"x-api-key": self._api_key}
         response = await self._client.get(
-            f"{self._base_url}/api/events/{event_id}/seats/",
+            urljoin(self._base_url, f"/api/events/{event_id}/seats/"),
             headers=headers,
         )
         response.raise_for_status()
@@ -43,7 +45,7 @@ class EventsProviderClient:
         }
 
         response = await self._client.post(
-            f"{self._base_url}/api/events/{event_id}/register/",
+            urljoin(self._base_url, f"/api/events/{event_id}/register/"),
             json=body,
             headers=headers,
         )
@@ -56,7 +58,7 @@ class EventsProviderClient:
 
         response = await self._client.request(
             "DELETE",
-            f"{self._base_url}/api/events/{event_id}/unregister/",
+            urljoin(self._base_url, f"/api/events/{event_id}/unregister/"),
             json=body,
             headers=headers,
         )

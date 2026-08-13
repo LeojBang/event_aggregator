@@ -4,6 +4,7 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from event_aggregator.models.enums import EventStatus
 from event_aggregator.models.events import Event
 
 
@@ -63,7 +64,7 @@ class EventRepository:
                 registration_deadline=datetime.fromisoformat(
                     event_data["registration_deadline"]
                 ),
-                status=event_data["status"],
+                status=EventStatus(event_data["status"]),
                 number_of_visitors=event_data["number_of_visitors"],
                 changed_at=datetime.fromisoformat(event_data["changed_at"]),
                 place_id=event_data["place"]["id"],
@@ -75,7 +76,7 @@ class EventRepository:
             event.registration_deadline = datetime.fromisoformat(
                 event_data["registration_deadline"]
             )
-            event.status = event_data["status"]
+            event.status = EventStatus(event_data["status"])
             event.number_of_visitors = event_data["number_of_visitors"]
             event.changed_at = datetime.fromisoformat(event_data["changed_at"])
             event.place_id = event_data["place"]["id"]

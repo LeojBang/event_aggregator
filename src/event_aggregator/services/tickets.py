@@ -39,7 +39,7 @@ class CreateTicketService:
         event = await self._event_repo.get_by_id(event_id)
         if event is None:
             raise EventNotFoundError
-        if event.status != EventStatus.PUBLISHED.value:
+        if event.status != EventStatus.PUBLISHED:
             raise EventNotPublishedError
         if datetime.now(UTC) >= event.registration_deadline:
             raise RegistrationClosedError
