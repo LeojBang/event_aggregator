@@ -21,7 +21,12 @@ class Event(Base):
     event_time: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     registration_deadline: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     status: Mapped[EventStatus] = mapped_column(
-        Enum(EventStatus, native_enum=False, length=20)
+        Enum(
+            EventStatus,
+            values_callable=lambda enum: [member.value for member in enum],
+            native_enum=False,
+            length=20,
+        )
     )
     number_of_visitors: Mapped[int] = mapped_column(Integer, default=0)
     changed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
