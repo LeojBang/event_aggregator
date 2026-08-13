@@ -6,3 +6,4 @@ class EventStatus(StrEnum):
     PUBLISHED = "published"
     CANCELLED = "cancelled"
     REGISTRATION_CLOSED = "registration_closed"
+    FINISHED = "finished"
