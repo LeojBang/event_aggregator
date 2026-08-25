@@ -7,11 +7,14 @@ from event_aggregator.core.db import get_db
 from event_aggregator.exceptions import (
     EventNotFoundError,
     EventNotPublishedError,
+    IdempotencyConflictError,
     RegistrationClosedError,
     SeatNotAvailableError,
     TicketNotFoundError,
 )
 from event_aggregator.repositories.events import EventRepository
+from event_aggregator.repositories.idempotency import IdempotencyRepository
+from event_aggregator.repositories.outbox import OutboxRepository
 from event_aggregator.repositories.tickets import TicketRepository
 from event_aggregator.schemas.tickets import (
     CreateTicketRequestSchema,
@@ -48,6 +51,8 @@ async def create_ticket(
         TicketRepository(session),
         seats_service,
         client,
+        OutboxRepository(session),
+        IdempotencyRepository(session),
     )
 
     try:
@@ -57,8 +62,11 @@ async def create_ticket(
             last_name=payload.last_name,
             email=payload.email,
             seat=payload.seat,
+            idempotency_key=payload.idempotency_key,
         )
         await session.commit()
+    except IdempotencyConflictError:
+        raise HTTPException(status_code=409, detail="Idempotency key conflict")
     except EventNotFoundError as exc:
         raise HTTPException(status_code=404, detail="Event not found") from exc
     except EventNotPublishedError as exc:

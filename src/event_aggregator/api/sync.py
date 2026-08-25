@@ -11,6 +11,7 @@ from event_aggregator.core.db import SessionLocal, get_db
 from event_aggregator.repositories.events import EventRepository
 from event_aggregator.repositories.places import PlaceRepository
 from event_aggregator.repositories.sync_metadata import SyncMetadataRepository
+from event_aggregator.services.outbox_worker import _run_outbox_worker
 from event_aggregator.services.sync import SyncService
 
 logger = logging.getLogger(__name__)
@@ -58,8 +59,11 @@ async def trigger_sync(session: AsyncSession = Depends(get_db)) -> dict[str, str
 
 @asynccontextmanager
 async def sync_lifespan(app):  # noqa: ARG001
-    task = asyncio.create_task(_run_scheduled_sync())
+    sync_task = asyncio.create_task(_run_scheduled_sync())
+    outbox_task = asyncio.create_task(_run_outbox_worker())
     yield
-    task.cancel()
+    sync_task.cancel()
+    outbox_task.cancel()
     with suppress(asyncio.CancelledError):
-        await task
+        await sync_task
+        await outbox_task

@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     POSTGRES_CONNECTION_STRING: str
     EVENTS_PROVIDER_URL: str
     EVENTS_PROVIDER_API_KEY: str
+    OUTBOX_POLL_INTERVAL_SECONDS: int = 5
+    CAPASHINO_URL: str
+    CAPASHINO_API_KEY: str
+    SENTRY_DSN: str | None = None
 
     @property
     def database_url(self):

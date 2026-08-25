@@ -16,3 +16,7 @@ class SeatNotAvailableError(Exception):
 
 class TicketNotFoundError(Exception):
     pass
+
+
+class IdempotencyConflictError(Exception):
+    pass

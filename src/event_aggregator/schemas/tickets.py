@@ -7,6 +7,7 @@ class CreateTicketRequestSchema(BaseModel):
     last_name: str
     email: EmailStr
     seat: str = Field(min_length=1)
+    idempotency_key: str | None = None
 
 
 class CreateTicketResponseSchema(BaseModel):

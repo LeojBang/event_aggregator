@@ -7,7 +7,14 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from alembic import context
 from event_aggregator.core.config import settings
 from event_aggregator.core.db import Base
-from event_aggregator.models import Event, Place, SyncMetadata, Ticket  # noqa: F401
+from event_aggregator.models import (  # noqa: F401
+    Event,
+    IdempotencyRecord,
+    Outbox,
+    Place,
+    SyncMetadata,
+    Ticket,
+)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

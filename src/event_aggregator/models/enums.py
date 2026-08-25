@@ -7,3 +7,12 @@ class EventStatus(StrEnum):
     CANCELLED = "cancelled"
     REGISTRATION_CLOSED = "registration_closed"
     FINISHED = "finished"
+
+
+class OutboxEventType(StrEnum):
+    TICKET_PURCHASED = "ticket_purchased"
+
+
+class OutboxStatus(StrEnum):
+    PENDING = "pending"
+    SENT = "sent"
