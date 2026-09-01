@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from event_aggregator.clients.event_provider import EventsProviderClient
@@ -41,11 +41,13 @@ def _get_events_provider_client() -> EventsProviderClient:
 )
 async def create_ticket(
     payload: CreateTicketRequestSchema,
+    request: Request,
     session: AsyncSession = Depends(get_db),
 ) -> CreateTicketResponseSchema:
+    cache = request.app.state.seats_cache
     client = _get_events_provider_client()
     event_repo = EventRepository(session)
-    seats_service = SeatsService(event_repo, client)
+    seats_service = SeatsService(event_repo, client, cache)
     service = CreateTicketService(
         event_repo,
         TicketRepository(session),

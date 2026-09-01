@@ -58,7 +58,8 @@ async def trigger_sync(session: AsyncSession = Depends(get_db)) -> dict[str, str
 
 
 @asynccontextmanager
-async def sync_lifespan(app):  # noqa: ARG001
+async def sync_lifespan(app):
+    app.state.seats_cache = {}
     sync_task = asyncio.create_task(_run_scheduled_sync())
     outbox_task = asyncio.create_task(_run_outbox_worker())
     yield

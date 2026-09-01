@@ -1,7 +1,8 @@
-from sqlalchemy import ForeignKey, String
+from sqlalchemy import Enum, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from event_aggregator.core.db import Base
+from event_aggregator.models.enums import TicketStatus
 
 
 class Ticket(Base):
@@ -13,3 +14,13 @@ class Ticket(Base):
     last_name: Mapped[str] = mapped_column(String)
     email: Mapped[str] = mapped_column(String)
     seat: Mapped[str] = mapped_column(String)
+    status: Mapped[TicketStatus] = mapped_column(
+        Enum(
+            TicketStatus,
+            values_callable=lambda enum: [member.value for member in enum],
+            native_enum=False,
+            length=20,
+        ),
+        index=True,
+        default=TicketStatus.ACTIVE,
+    )

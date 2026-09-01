@@ -83,10 +83,12 @@ async def get_event(
 @router.get("/api/events/{event_id}/seats", response_model=SeatsResponseSchema)
 async def get_event_seats(
     event_id: str,
+    request: Request,
     session: AsyncSession = Depends(get_db),
 ) -> SeatsResponseSchema:
+    cache = request.app.state.seats_cache
     client = _get_events_provider_client()
-    service = SeatsService(EventRepository(session), client)
+    service = SeatsService(EventRepository(session), client, cache)
     try:
         seats = await service.get_available_seats(event_id)
     except EventNotFoundError as exc:

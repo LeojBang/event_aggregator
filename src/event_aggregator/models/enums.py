@@ -16,3 +16,8 @@ class OutboxEventType(StrEnum):
 class OutboxStatus(StrEnum):
     PENDING = "pending"
     SENT = "sent"
+
+
+class TicketStatus(StrEnum):
+    ACTIVE = "active"
+    CANCELLED = "cancelled"
